@@ -1,0 +1,132 @@
+﻿@page "/add_clan"
+
+
+@inject IClan Clans
+@inject SweetAlertService Swal;
+
+
+<h3>@title</h3>
+
+<div class="mb-3">
+    <EditForm Model="clan">
+        <label class="text-black">Clan Name</label>
+
+        <InputText @bind-Value="clan.ClanName" class="form-control mb-3" />
+
+        <button type="submit"
+                class="btn btn-primary"
+                @onclick="(() => MyClan())">
+            @btntitle
+        </button>
+    </EditForm>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr >
+            <td class="text-black">IDCLAN</td>
+            <td class="text-black">CLAN NAME</td>
+            <td class="text-black">ACTIONS</td>
+        </tr>
+    </thead>
+    <tbody>
+               
+
+        @if (clanList != null)
+            {
+            @foreach (var item in clanList)
+                {
+                    <tr>
+                    <td>@item.IdClan</td>
+                    <td>@item.ClanName</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" @onclick="(() => GetOneCharacter(item.IdClan))">
+                            <i class="oi oi-pencil"> UPDATE</i>
+                        </button>
+                        <button class="btn btn-danger text-light btn-sm" @onclick="(() => DeleteCharacter(item.IdClan))">
+                            <i class="oi oi-trash text-light"> DELETE</i>
+                        </button>
+                    </td>
+                    </tr>
+                }
+            }
+            else
+            {
+               <tr>
+                    <td>No hay datos</td>
+               </tr>
+            }
+        
+    </tbody>
+    
+</table>
+
+
+
+@code {
+    public int IdClan { get; set; } = 0;
+
+    List<Clan>? clanList = null;
+    Clan clan = new Clan();
+    string title = "Add Clan";
+    string btntitle = "Add";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        clanList = await Clans.Clan_GETS();
+    }
+
+    private async Task GetOneCharacter(int id)
+    {
+        clan = await Clans.Clan_GET(id);
+        IdClan = id;
+        title = "Edit Clan";
+        btntitle = "Edit";
+    }
+    private async Task DeleteCharacter(int id)
+    {
+        var alert = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "¿Estás seguro?",
+                Text = "¡No podrás revertir esto!",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "¡Sí, bórralo!",
+                CancelButtonText = "¡No, cancela!",
+                ReverseButtons = true
+            });
+
+        if (alert.IsConfirmed)
+        {
+            await Clans.Clan_DELETE(id);
+            await OnInitializedAsync();
+        }
+
+    }
+
+    private async Task MyClan()
+    {
+        if (IdClan != 0)
+        {
+            await Clans.Clan_PUT(clan, IdClan);   
+            await OnInitializedAsync();
+            ResetField();
+        }
+        else
+        {
+            await Clans.Clan_POST(clan);
+            await OnInitializedAsync();
+            ResetField();
+            
+        }
+    }
+
+    private void ResetField()
+    {
+        title = "Add Clan";
+        btntitle = "Add";
+        IdClan = 0;
+        clan.ClanName = string.Empty;
+    }
+}

@@ -1,0 +1,141 @@
+﻿@page "/add_character"
+@page "/add_character/{IdCharacter:int}"
+
+@inject SweetAlertService Swal;
+@inject ICharacters Chacacters; 
+@inject IClan Clans;
+@inject NavigationManager NavigationManager;
+@inject IJSRuntime JS;
+
+<h3>@title</h3>
+
+<EditForm Model="listCharacter">
+    <div class="mb-3" >
+        <img class="mb-4"
+             src="@imageUrl"
+             alt="Character Image"
+             width="200"
+             height="150">
+
+        <InputFile 
+            class="form-control mb-4" 
+            OnChange="OnFileChange" 
+            accept="image/png, image/jpeg" />
+
+    </div>
+   
+    <div class="mb-3">
+
+        <label>First Name</label>
+
+        <InputText 
+            @bind-Value="listCharacter.FirstName" 
+            class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Clan</label>
+        <InputSelect 
+            class="form-select" 
+            @bind-Value="listCharacter.IdClan">
+
+            <option>-- SELECT --</option>
+
+            @foreach (var item in listClan)
+            {
+                <option  value="@item.IdClan"> @item.ClanName</option>
+            }
+        </InputSelect>
+        
+    </div>
+
+    <div class="mb-3">
+        <label>Age</label>
+        <InputNumber 
+            @bind-Value="listCharacter.Age" 
+            class="form-control" />
+    </div>
+
+    <button 
+        type="submit" 
+        class="btn btn-primary" 
+        @onclick="(() => SaveCharacter())">
+        @btntitle
+    </button>
+   
+
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int IdCharacter { get; set; } = 0;
+
+    string imageUrl = null!;
+    string title = string.Empty;
+    string btntitle = string.Empty;
+
+    private string base64String = null!;
+
+    Characters listCharacter = new Characters();
+    List<Clan> listClan = new List<Clan>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IdCharacter != 0)
+        {
+            listCharacter = await Chacacters.Character_GET(IdCharacter);
+            title = "Edit Character";
+            btntitle = "Edit";
+            imageUrl = listCharacter.Image;
+            listClan = await Clans.Clan_GETS();
+            
+        } else
+        {
+            title = "Add Character";
+            btntitle = "Add";
+            imageUrl = "https://i.postimg.cc/DwwLdcy1/Jujutsu-Kaisen-logo.png";
+            listClan = await Clans.Clan_GETS();
+        }
+    }
+
+    private async Task SaveCharacter()
+    {
+        if (IdCharacter != 0)
+        {
+            await Chacacters.Character_PUT(listCharacter, IdCharacter);
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            await Chacacters.Character_POST(listCharacter);
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+
+    private async Task OnFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        using (var memoryStream = new MemoryStream())
+        {
+            await file.OpenReadStream().CopyToAsync(memoryStream);
+
+            var fileBytes = memoryStream.ToArray();
+         
+            imageUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(fileBytes)}";          
+
+            base64String = Convert.ToBase64String(fileBytes);
+
+            
+        }
+    }
+
+    // de base64 a imagen
+    private async Task ConvertirImagen(string base64)
+    {
+        
+    }
+}

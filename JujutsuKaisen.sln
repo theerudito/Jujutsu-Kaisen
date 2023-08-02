@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JujutsuKaisen.Backend", "JujutsuKaisen.Backend\JujutsuKaisen.Backend.csproj", "{68AEE547-800F-472C-9972-98560F362A17}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JujutsuKaisen.Database", "JujutsuKaisen.Database\JujutsuKaisen.Database.csproj", "{C4EB090C-587F-4B4E-AFE2-ABB67BED635E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JujutsuKaisen.Frontend", "JujutsuKaisen.Frontend\JujutsuKaisen.Frontend.csproj", "{4620FC27-0E02-4A3C-960B-7737822B7E9F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JujutsuKaisen.Helpers", "JujutsuKaisen.Helpers\JujutsuKaisen.Helpers.csproj", "{F5ADEFA7-8EE5-4122-B06E-F87AC91878E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JujutsuKaisen.Models", "JujutsuKaisen.Models\JujutsuKaisen.Models.csproj", "{3F9B9036-7CFA-44F0-A545-7E2FC7E898D2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JujutsuKaisen.Repository", "JujutsuKaisen.Repository\JujutsuKaisen.Repository.csproj", "{20185EA8-B89C-40CA-9B4A-C1CE12FBFB20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68AEE547-800F-472C-9972-98560F362A17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68AEE547-800F-472C-9972-98560F362A17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68AEE547-800F-472C-9972-98560F362A17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68AEE547-800F-472C-9972-98560F362A17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4EB090C-587F-4B4E-AFE2-ABB67BED635E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4EB090C-587F-4B4E-AFE2-ABB67BED635E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4EB090C-587F-4B4E-AFE2-ABB67BED635E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4EB090C-587F-4B4E-AFE2-ABB67BED635E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4620FC27-0E02-4A3C-960B-7737822B7E9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4620FC27-0E02-4A3C-960B-7737822B7E9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4620FC27-0E02-4A3C-960B-7737822B7E9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4620FC27-0E02-4A3C-960B-7737822B7E9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5ADEFA7-8EE5-4122-B06E-F87AC91878E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5ADEFA7-8EE5-4122-B06E-F87AC91878E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5ADEFA7-8EE5-4122-B06E-F87AC91878E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5ADEFA7-8EE5-4122-B06E-F87AC91878E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F9B9036-7CFA-44F0-A545-7E2FC7E898D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F9B9036-7CFA-44F0-A545-7E2FC7E898D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F9B9036-7CFA-44F0-A545-7E2FC7E898D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F9B9036-7CFA-44F0-A545-7E2FC7E898D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20185EA8-B89C-40CA-9B4A-C1CE12FBFB20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20185EA8-B89C-40CA-9B4A-C1CE12FBFB20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20185EA8-B89C-40CA-9B4A-C1CE12FBFB20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20185EA8-B89C-40CA-9B4A-C1CE12FBFB20}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {70C75137-7674-4ED1-9C66-7996AF0E4A96}
+	EndGlobalSection
+EndGlobal

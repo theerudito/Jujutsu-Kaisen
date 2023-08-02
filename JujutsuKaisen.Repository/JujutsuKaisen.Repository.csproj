@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JujutsuKaisen.Database\JujutsuKaisen.Database.csproj" />
+    <ProjectReference Include="..\JujutsuKaisen.Models\JujutsuKaisen.Models.csproj" />
+  </ItemGroup>
+
+</Project>
