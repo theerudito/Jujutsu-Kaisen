@@ -1,0 +1,87 @@
+﻿@page "/"
+
+@inject SweetAlertService Swal;
+@inject ICharacters Chacacters;
+@inject NavigationManager NavigationManager;
+
+
+<p>Lista De Characters</p>
+
+@if (characters != null)
+{
+   
+    @foreach (var item in characters)
+    {
+       
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="@item.Image" alt="image" >
+            <div class="card-body">
+                
+                    <p class="card-text">ID: @item.IdCharacter</p>
+
+                    <h5 class="card-title">Name: @item.FirstName</h5>
+
+                    <h5 class="card-title">Clan: @item.Clan.ClanName</h5>
+
+                    <p class="card-text">Age @item.Age</p>
+         
+                <a href="" class="btn btn-warning" @onclick="(() => GetOneCharacter(item.IdCharacter))">
+                    <i class="oi oi-pencil">EDIT</i> </a>
+                <a href="#" class="btn btn-danger" @onclick="(() => DeleteCharacter(item.IdCharacter))">
+                    <i class="oi oi-trash">DELETE</i>
+                </a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>No hay datos</p>
+}
+
+@code {
+
+    List<Characters>? characters = null;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        characters = await Chacacters.Characters_GETS();
+    }
+
+    private async Task DeleteCharacter(int id)
+    {
+        var alert = await Swal.FireAsync(new SweetAlertOptions
+        {
+            Title = "¿Estás seguro?",
+            Text = "¡No podrás revertir esto!",
+            Icon = SweetAlertIcon.Warning,
+            ShowCancelButton = true,
+            ConfirmButtonText = "¡Sí, bórralo!",
+            CancelButtonText = "¡No, cancela!",
+            ReverseButtons = true
+        });
+
+        if (alert.IsConfirmed)
+        {
+            await Chacacters.Character_DELETE(id);
+            // Buscar el índice del personaje que coincide con el ID proporcionado
+            var index = characters!.FindIndex(character => character.IdCharacter == id);
+            // Si se encuentra el personaje con el ID proporcionado, eliminarlo de la lista
+            if (index != -1)
+            {
+                characters.RemoveAt(index);
+            }
+        }  
+    }
+
+    private async Task GetOneCharacter(int id)
+    {
+       var getById  =  await Chacacters.Character_GET(id);
+
+        if (getById != null)
+        {
+            NavigationManager.NavigateTo($"/add_character/{getById.IdCharacter}");
+        }
+    }
+}

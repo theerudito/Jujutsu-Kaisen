@@ -1,0 +1,22 @@
+.card {
+    background-color: aqua;
+    border: 1px solid black;
+    gap: 10px;
+    margin: auto;
+    padding: 10px;
+    display: grid;
+   
+}
+
+.card-img-top {
+    width: 100%;
+    background-color: aquamarine;
+    border: 1px solid black;
+    height: 15vw;
+    object-fit: cover;
+    width: 100px; 
+    height: 120px; 
+    object-fit: fill;
+    align-items : center;
+    border-radius: 50%;
+}

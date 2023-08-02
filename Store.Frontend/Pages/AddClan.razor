@@ -1,0 +1,102 @@
+﻿@page "/add_clan"
+
+
+@inject IClan Clans
+
+
+<h3>@title</h3>
+
+<div class="mb-3">
+    <EditForm Model="clan">
+        <label class="text-black">Clan Name</label>
+        <InputText @bind-Value="clan.ClanName" class="form-control" />
+        <button type="submit"
+                class="btn btn-primary"
+                @onclick="(() => MyClan())">
+            @btntitle
+        </button>
+    </EditForm>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr >
+            <td class="text-black">IdName</td>
+            <td class="text-black">Clan Name</td>
+            <td class="text-black">Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (clanList != null)
+            {
+            @foreach (var item in clanList)
+                {
+                    <tr>
+                    <td>@item.IdClan</td>
+                    <td>@item.ClanName</td>
+                    <td>
+                        <a href="" class="btn btn-warning" @onclick="(() => GetOneCharacter(item.IdClan))">
+                            <i class="oi oi-pencil">EDIT</i>
+                        </a>
+                        <a href="#" class="btn btn-danger" @onclick="(() => DeleteCharacter(item.IdClan))">
+                            <i class="oi oi-trash">DELETE</i>
+                        </a>
+                    </td>
+                    </tr>
+                }
+            }
+            else
+            {
+               <tr>
+                    <td>No hay datos</td>
+               </tr>
+            }
+        
+    </tbody>
+    
+</table>
+
+
+
+@code {
+    public int IdClan { get; set; } = 0;
+
+    List<Clan>? clanList = null;
+    Clan clan = new Clan();
+    string title = "Add Clan";
+    string btntitle = "Add";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        clanList = await Clans.Clan_GETS();
+    }
+
+    private async Task GetOneCharacter(int id)
+    {
+        clan = await Clans.Clan_GET(id);
+        IdClan = id;
+        
+    }
+    private async Task DeleteCharacter(int id)
+    {
+        await Clans.Clan_DELETE(id);
+    }
+
+    private async Task MyClan()
+    {
+        if (IdClan != 0)
+        {
+            await Clans.Clan_PUT(clan, IdClan);
+            title = "Edit Clan";
+            btntitle = "Edit";
+        }
+        else
+        {
+            await Clans.Clan_POST(clan);
+            title = "Add Clan";
+            btntitle = "Add";
+        }
+    }
+}
