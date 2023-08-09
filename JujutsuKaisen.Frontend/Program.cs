@@ -1,5 +1,6 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using JujutsuKaisen.Frontend;
+using JujutsuKaisen.Helpers;
 using JujutsuKaisen.Repository.Frontend;
 using JujutsuKaisen.Repository.Service;
 using Microsoft.AspNetCore.Components.Web;
@@ -11,6 +12,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<ICharacters, CharactersRespositoryFrontend>();
 builder.Services.AddScoped<IClan, ClanRespositoryFrontend>();
+
+builder.Services.AddAutoMapper(typeof(MapperConfiguration));
 
 
 

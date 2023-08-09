@@ -7,10 +7,11 @@ namespace JujutsuKaisen.Models.Model
         [Key]
         public int IdCharacter { get; set; }
         public string FirstName { get; set; } = string.Empty;
-        public string Image { get; set; } = string.Empty;
         public int Age { get; set; }
+        public string Image { get; set; } = string.Empty;
 
+        // Clave foránea para la relación con Clan
         public int IdClan { get; set; }
-        public Clan Clan { get; set; } = new Clan();
+        public Clan Clan { get; set; } = null!;
     }
 }

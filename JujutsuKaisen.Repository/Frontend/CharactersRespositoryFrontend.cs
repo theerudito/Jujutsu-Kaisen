@@ -1,4 +1,6 @@
-﻿using JujutsuKaisen.Models.Model;
+﻿using AutoMapper;
+using JujutsuKaisen.Models.DTO;
+using JujutsuKaisen.Models.Model;
 using JujutsuKaisen.Repository.Service;
 using Newtonsoft.Json;
 using System.Text;
@@ -8,10 +10,12 @@ namespace JujutsuKaisen.Repository.Frontend
     public class CharactersRespositoryFrontend : ICharacters
     {
         private readonly HttpClient _fetch;
+        private readonly IMapper _mapper;
 
-        public CharactersRespositoryFrontend(HttpClient fetch)
+        public CharactersRespositoryFrontend(HttpClient fetch, IMapper mapper)
         {
             _fetch = fetch;
+            _mapper = mapper;
         }
 
         public async Task<List<Characters>> Characters_GETS()
@@ -67,6 +71,7 @@ namespace JujutsuKaisen.Repository.Frontend
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
+
                     return JsonConvert.DeserializeObject<Characters>(data)!;
                 }
                 else
@@ -82,7 +87,7 @@ namespace JujutsuKaisen.Repository.Frontend
             }
         }
 
-        public async Task<Characters> Character_POST(Characters character)
+        public async Task<Characters> Character_POST(CharactersDTO character)
         {
             try
             {
@@ -110,7 +115,7 @@ namespace JujutsuKaisen.Repository.Frontend
 
         }
 
-        public async Task<bool> Character_PUT(Characters character, int id)
+        public async Task<bool> Character_PUT(CharactersDTO character, int id)
         {
             try
             {

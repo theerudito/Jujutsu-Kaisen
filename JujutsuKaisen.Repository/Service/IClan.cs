@@ -1,6 +1,4 @@
-﻿
-
-using JujutsuKaisen.Models.Model;
+﻿using JujutsuKaisen.Models.Model;
 
 namespace JujutsuKaisen.Repository.Service
 {

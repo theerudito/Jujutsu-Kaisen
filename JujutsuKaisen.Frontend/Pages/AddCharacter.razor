@@ -1,8 +1,9 @@
 ﻿@page "/add_character"
 @page "/add_character/{IdCharacter:int}"
 
+
 @inject SweetAlertService Swal;
-@inject ICharacters Chacacters; 
+@inject ICharacters Characters; 
 @inject IClan Clans;
 @inject NavigationManager NavigationManager;
 @inject IJSRuntime JS;
@@ -78,14 +79,22 @@
     private string base64String = null!;
 
     Characters listCharacter = new Characters();
+    CharactersDTO listCharacterDTO = new CharactersDTO();
     List<Clan> listClan = new List<Clan>();
 
+    private readonly IMapper _mapper;
+
+    public AddCharacter(IMapper mapper)
+    {
+        _mapper = mapper;
+    }
 
     protected override async Task OnInitializedAsync()
-    {
+    {   
+       
         if (IdCharacter != 0)
         {
-            listCharacter = await Chacacters.Character_GET(IdCharacter);
+            listCharacter = await Characters.Character_GET(IdCharacter);
             title = "Edit Character";
             btntitle = "Edit";
             imageUrl = listCharacter.Image;
@@ -104,12 +113,13 @@
     {
         if (IdCharacter != 0)
         {
-            await Chacacters.Character_PUT(listCharacter, IdCharacter);
+            var characterDTO = _mapper.Map<Characters>(listCharacter);
+            await Characters.Character_PUT(listCharacterDTO, IdCharacter);
             NavigationManager.NavigateTo("/");
         }
         else
         {
-            await Chacacters.Character_POST(listCharacter);
+            await Characters.Character_POST(listCharacterDTO);
             NavigationManager.NavigateTo("/");
         }
     }

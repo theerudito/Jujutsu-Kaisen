@@ -1,4 +1,4 @@
-﻿using JujutsuKaisen.Models.Model;
+﻿using JujutsuKaisen.Models.DTO;
 using JujutsuKaisen.Repository.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,7 +38,7 @@ namespace JujutsuKaisen.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> POST_Character(Characters characters)
+        public async Task<ActionResult> POST_Character(CharactersDTO characters)
         {
             var character = await _charactersRepository.Character_POST(characters);
 
@@ -49,7 +49,7 @@ namespace JujutsuKaisen.Backend.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult> PUT_Character(Characters characters, int id)
+        public async Task<ActionResult> PUT_Character(CharactersDTO characters, int id)
         {
             var character = await _charactersRepository.Character_PUT(characters, id);
 

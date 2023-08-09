@@ -1,4 +1,5 @@
 using JujutsuKaisen.Database;
+using JujutsuKaisen.Helpers;
 using JujutsuKaisen.Repository.Backend;
 using JujutsuKaisen.Repository.Service;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ICharacters, CharacterRepositoryBackend>();
 builder.Services.AddScoped<IClan, ClanRepositoryBackend>();
+
+builder.Services.AddAutoMapper(typeof(MapperConfiguration));
 
 //var connectionString = builder.Configuration.GetConnectionString("MySqlite");
 //builder.Services.AddDbContext<ApplicationDB>(options => options.UseSqlite(connectionString));

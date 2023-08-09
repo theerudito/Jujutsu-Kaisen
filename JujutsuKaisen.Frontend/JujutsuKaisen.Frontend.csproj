@@ -7,16 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="CurrieTechnologies.Razor.SweetAlert2" Version="5.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.4" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\sample-data\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\JujutsuKaisen.Helpers\JujutsuKaisen.Helpers.csproj" />
     <ProjectReference Include="..\JujutsuKaisen.Models\JujutsuKaisen.Models.csproj" />
     <ProjectReference Include="..\JujutsuKaisen.Repository\JujutsuKaisen.Repository.csproj" />
   </ItemGroup>
