@@ -11,7 +11,7 @@ namespace JujutsuKaisen.Models.Model
         public string Image { get; set; } = string.Empty;
 
         // Clave foránea para la relación con Clan
-        public int IdClan { get; set; }
-        public Clan Clan { get; set; } = null!;
+        public int? IdClan { get; set; }
+        public virtual Clan? Clan { get; set; }
     }
 }

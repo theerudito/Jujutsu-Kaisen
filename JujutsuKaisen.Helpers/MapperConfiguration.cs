@@ -9,6 +9,10 @@ namespace JujutsuKaisen.Helpers
         public MapperConfiguration()
         {
             CreateMap<CharactersDTO, Characters>();
+            CreateMap<Characters, CharactersDTO>().ForMember(dest => dest.NameClan, opt => opt.MapFrom(src => src.Clan.ClanName));
+
+            CreateMap<ClanDTO, Clan>();
+            CreateMap<Clan, ClanDTO>();
         }
     }
 }

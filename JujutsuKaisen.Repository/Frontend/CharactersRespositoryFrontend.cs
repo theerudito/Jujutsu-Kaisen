@@ -18,7 +18,7 @@ namespace JujutsuKaisen.Repository.Frontend
             _mapper = mapper;
         }
 
-        public async Task<List<Characters>> Characters_GETS()
+        public async Task<List<CharactersDTO>> Characters_GETS()
         {
             try
             {
@@ -27,17 +27,17 @@ namespace JujutsuKaisen.Repository.Frontend
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<Characters>>(data)!;
+                    return JsonConvert.DeserializeObject<List<CharactersDTO>>(data)!;
                 }
                 else
                 {
-                    return new List<Characters>();
+                    return new List<CharactersDTO>();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al obtener los personajes: {ex.Message}");
-                return new List<Characters>();
+                return new List<CharactersDTO>();
             }
         }
 
@@ -63,7 +63,7 @@ namespace JujutsuKaisen.Repository.Frontend
             }
         }
 
-        public async Task<Characters> Character_GET(int id)
+        public async Task<CharactersDTO> Character_GET(int id)
         {
             try
             {
@@ -72,18 +72,18 @@ namespace JujutsuKaisen.Repository.Frontend
                 {
                     var data = await response.Content.ReadAsStringAsync();
 
-                    return JsonConvert.DeserializeObject<Characters>(data)!;
+                    return JsonConvert.DeserializeObject<CharactersDTO>(data)!;
                 }
                 else
                 {
-                    return new Characters();
+                    return new CharactersDTO();
                 }
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al obtener los personajes: {ex.Message}");
-                return new Characters();
+                return new CharactersDTO();
             }
         }
 

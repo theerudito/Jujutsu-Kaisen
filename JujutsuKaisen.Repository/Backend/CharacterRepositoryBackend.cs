@@ -18,11 +18,11 @@ namespace JujutsuKaisen.Repository.Backend
             _mapper = mapper;
         }
 
-        public async Task<List<Characters>> Characters_GETS()
+        public async Task<List<CharactersDTO>> Characters_GETS()
         {
             var query = await _context.Characters.Include(c => c.Clan).ToListAsync();
 
-            return query != null ? query : null!;
+            return _mapper.Map<List<CharactersDTO>>(query);
         }
 
         public async Task<bool> Character_DELETE(int id)
@@ -41,18 +41,21 @@ namespace JujutsuKaisen.Repository.Backend
             }
         }
 
-        public async Task<Characters> Character_GET(int id)
+        public async Task<CharactersDTO> Character_GET(int id)
         {
-            var query = await _context.Characters.Where(x => x.IdCharacter == id).FirstOrDefaultAsync();
+            var query = await _context.Characters
+                .Include(c => c.Clan)
+                .Where(x => x.IdCharacter == id).FirstOrDefaultAsync();
 
-            return query != null ? query : null!;
+            return query != null ? _mapper.Map<CharactersDTO>(query) : null!;
         }
 
         public async Task<Characters> Character_POST(CharactersDTO character)
         {
-            var query = await _context.Characters.Include(c => c.Clan)
-                                         .Where(x => x.FirstName == character.FirstName)
-                                         .FirstOrDefaultAsync();
+            var query = await _context.Characters
+                .Include(c => c.Clan)
+                .Where(x => x.FirstName == character.FirstName)
+                .FirstOrDefaultAsync();
 
             if (query == null)
             {
@@ -66,22 +69,22 @@ namespace JujutsuKaisen.Repository.Backend
             }
             else
             {
-                return null;
+                return null!;
             }
         }
 
         public async Task<bool> Character_PUT(CharactersDTO character, int id)
         {
-            var query = await _context.Characters.Where(x => x.IdCharacter == id).FirstOrDefaultAsync();
+            var query = await _context.Characters
+                .Include(c => c.Clan)
+                .Where(x => x.IdCharacter == id).FirstOrDefaultAsync();
 
             if (query != null)
             {
                 query.FirstName = character.FirstName;
-                query.Clan.ClanName = character.ClanName;
-
+                query.IdClan = character.IdClan;
                 query.Age = character.Age;
                 query.Image = character.Image;
-
                 await _context.SaveChangesAsync();
 
                 return true;

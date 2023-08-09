@@ -5,9 +5,9 @@ namespace JujutsuKaisen.Repository.Service
 {
     public interface ICharacters
     {
-        public Task<List<Characters>> Characters_GETS();
+        public Task<List<CharactersDTO>> Characters_GETS();
 
-        public Task<Characters> Character_GET(int id);
+        public Task<CharactersDTO> Character_GET(int id);
 
         public Task<Characters> Character_POST(CharactersDTO character);
 

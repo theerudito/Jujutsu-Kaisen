@@ -1,4 +1,4 @@
-﻿using JujutsuKaisen.Models.Model;
+﻿using JujutsuKaisen.Models.DTO;
 using JujutsuKaisen.Repository.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,7 +34,7 @@ namespace JujutsuKaisen.Backend.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult> Clan_Post(Clan clan)
+        public async Task<ActionResult> Clan_Post(ClanDTO clan)
         {
             var res = await _clanRepository.Clan_POST(clan);
             return res != null
@@ -44,7 +44,7 @@ namespace JujutsuKaisen.Backend.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult> Clan_Put(Clan clan, int id)
+        public async Task<ActionResult> Clan_Put(ClanDTO clan, int id)
         {
             var res = await _clanRepository.Clan_PUT(clan, id);
             return res == true

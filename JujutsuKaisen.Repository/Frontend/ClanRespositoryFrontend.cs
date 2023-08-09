@@ -1,4 +1,5 @@
-﻿using JujutsuKaisen.Models.Model;
+﻿using JujutsuKaisen.Models.DTO;
+using JujutsuKaisen.Models.Model;
 using JujutsuKaisen.Repository.Service;
 using Newtonsoft.Json;
 using System.Text;
@@ -12,33 +13,33 @@ namespace JujutsuKaisen.Repository.Frontend
         {
             _fetch = http;
         }
-        public async Task<List<Clan>> Clan_GETS()
+        public async Task<List<ClanDTO>> Clan_GETS()
         {
             try
             {
                 var json = await _fetch.GetStringAsync("Clan");
-                return JsonConvert.DeserializeObject<List<Clan>>(json)!;
+                return JsonConvert.DeserializeObject<List<ClanDTO>>(json)!;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Ocurrio Un Error: {ex.Message}");
-                return new List<Clan>();
+                return new List<ClanDTO>();
             }
         }
-        public async Task<Clan> Clan_GET(int id)
+        public async Task<ClanDTO> Clan_GET(int id)
         {
             try
             {
                 var json = await _fetch.GetStringAsync($"Clan/{id}");
-                return JsonConvert.DeserializeObject<Clan>(json)!;
+                return JsonConvert.DeserializeObject<ClanDTO>(json)!;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Ocurrio Un Error: {ex.Message}");
-                return new Clan();
+                return new ClanDTO();
             }
         }
-        public async Task<Clan> Clan_POST(Clan clan)
+        public async Task<Clan> Clan_POST(ClanDTO clan)
         {
             try
             {
@@ -64,7 +65,7 @@ namespace JujutsuKaisen.Repository.Frontend
                 return new Clan();
             }
         }
-        public async Task<bool> Clan_PUT(Clan clan, int id)
+        public async Task<bool> Clan_PUT(ClanDTO clan, int id)
         {
             try
             {
