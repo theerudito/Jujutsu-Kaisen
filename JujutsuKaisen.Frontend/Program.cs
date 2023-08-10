@@ -10,11 +10,11 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
+
 builder.Services.AddScoped<ICharacters, CharactersRespositoryFrontend>();
 builder.Services.AddScoped<IClan, ClanRespositoryFrontend>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfiguration));
-
 
 
 builder.Services.AddSweetAlert2();

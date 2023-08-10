@@ -1,5 +1,6 @@
-﻿@page "/add_character"
-@page "/add_character/{IdCharacter:int}"
+﻿@page "/addCharacter"
+@page "/addCharacter/{IdCharacter:int}"
+
 
 
 @inject SweetAlertService Swal;
@@ -7,6 +8,7 @@
 @inject IClan Clans;
 @inject NavigationManager NavigationManager;
 @inject IJSRuntime JS;
+
 
 <h3>@title</h3>
 
@@ -21,7 +23,7 @@
         <InputFile 
             class="form-control mb-4" 
             OnChange="OnFileChange" 
-            accept="image/png, image/jpeg" />
+            accept="image/png, image/jpeg, image/webp" />
 
     </div>
    
@@ -63,6 +65,12 @@
         @onclick="(() => SaveCharacter())">
         @btntitle
     </button>
+
+    <button type="submit"
+            class="btn btn-outline-primary"
+            @onclick="(() => Cancel())">
+        Cancel
+    </button>
    
 
 </EditForm>
@@ -78,28 +86,22 @@
 
     private string base64String = null!;
 
-    Characters listCharacter = new Characters();
-    CharactersDTO listCharacterDTO = new CharactersDTO();
-    List<Clan> listClan = new List<Clan>();
+    CharactersDTO listCharacter = new CharactersDTO();
+    List<ClanDTO> listClan = new List<ClanDTO>();
 
-    private readonly IMapper _mapper;
 
-    public AddCharacter(IMapper mapper)
-    {
-        _mapper = mapper;
-    }
 
     protected override async Task OnInitializedAsync()
-    {   
-       
+    {
+
         if (IdCharacter != 0)
         {
             listCharacter = await Characters.Character_GET(IdCharacter);
             title = "Edit Character";
             btntitle = "Edit";
-            imageUrl = listCharacter.Image;
-            listClan = await Clans.Clan_GETS();
-            
+            imageUrl = ImageLoad.TOPNG(listCharacter.Image);
+        listClan = await Clans.Clan_GETS();
+
         } else
         {
             title = "Add Character";
@@ -111,41 +113,66 @@
 
     private async Task SaveCharacter()
     {
+        var newCharacter = new CharactersDTO
+            {
+                IdCharacter = IdCharacter,
+                FirstName = listCharacter.FirstName,
+                IdClan = listCharacter.IdClan,
+                Age = listCharacter.Age,
+                Image = base64String
+            };
+
         if (IdCharacter != 0)
         {
-            var characterDTO = _mapper.Map<Characters>(listCharacter);
-            await Characters.Character_PUT(listCharacterDTO, IdCharacter);
+           
+            await Characters.Character_PUT(newCharacter, IdCharacter);
+            ResetField();
             NavigationManager.NavigateTo("/");
         }
         else
         {
-            await Characters.Character_POST(listCharacterDTO);
+            await Characters.Character_POST(newCharacter);
+            ResetField();
             NavigationManager.NavigateTo("/");
         }
+    }
+
+    private void Cancel()
+    {
+       ResetField();
+    }
+
+    private void ResetField()
+    {
+        listCharacter = new CharactersDTO();
+        title = "Add Character";
+        btntitle = "Add";
+        imageUrl = "https://i.postimg.cc/DwwLdcy1/Jujutsu-Kaisen-logo.png";
+        IdCharacter = 0;
+        base64String = null!;
     }
 
 
     private async Task OnFileChange(InputFileChangeEventArgs e)
     {
-        var file = e.File;
-
-        using (var memoryStream = new MemoryStream())
+        try
         {
-            await file.OpenReadStream().CopyToAsync(memoryStream);
+            var file = e.File;
 
-            var fileBytes = memoryStream.ToArray();
-         
-            imageUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(fileBytes)}";          
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.OpenReadStream().CopyToAsync(memoryStream);
 
-            base64String = Convert.ToBase64String(fileBytes);
+                var fileBytes = memoryStream.ToArray();
 
-            
+                imageUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(fileBytes)}";
+                base64String = Convert.ToBase64String(fileBytes);
+            }
         }
-    }
-
-    // de base64 a imagen
-    private async Task ConvertirImagen(string base64)
-    {
-        
+        catch (Exception ex)
+        {
+            // Maneja la excepción aquí, por ejemplo, mostrando un mensaje de error
+            Console.WriteLine($"Error al procesar la imagen: {ex.Message}");
+        }
     }
 }

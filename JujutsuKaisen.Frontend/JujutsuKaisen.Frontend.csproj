@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JujutsuKaisen.Helpers\JujutsuKaisen.Helpers.csproj" />
-    <ProjectReference Include="..\JujutsuKaisen.Models\JujutsuKaisen.Models.csproj" />
     <ProjectReference Include="..\JujutsuKaisen.Repository\JujutsuKaisen.Repository.csproj" />
   </ItemGroup>
 

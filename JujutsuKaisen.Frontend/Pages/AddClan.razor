@@ -1,4 +1,4 @@
-﻿@page "/add_clan"
+﻿@page "/addClan"
 
 
 @inject IClan Clans
@@ -18,6 +18,13 @@
                 @onclick="(() => MyClan())">
             @btntitle
         </button>
+
+        <button type="submit"
+                class="btn btn-outline-primary"
+                @onclick="(() => Cancel())">
+            Cancel
+        </button>
+
     </EditForm>
 </div>
 
@@ -66,8 +73,8 @@
 @code {
     public int IdClan { get; set; } = 0;
 
-    List<Clan>? clanList = null;
-    Clan clan = new Clan();
+    List<ClanDTO>? clanList = null;
+    ClanDTO clan = new ClanDTO();
     string title = "Add Clan";
     string btntitle = "Add";
 
@@ -103,6 +110,11 @@
             await OnInitializedAsync();
         }
 
+    }
+
+    private void Cancel()
+    {
+        ResetField();
     }
 
     private async Task MyClan()

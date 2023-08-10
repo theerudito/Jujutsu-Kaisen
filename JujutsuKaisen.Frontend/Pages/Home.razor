@@ -9,24 +9,25 @@
 
 @if (characters != null)
 {
-   
+
     @foreach (var item in characters)
     {
-       
+
         <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="@item.Image" alt="image" >
+            <img class="card-img-top" src="@ImageLoad.TOPNG(item.Image)" alt="image">
             <div class="card-body">
-                
-                    <p class="card-text">ID: @item.IdCharacter</p>
 
-                    <h5 class="card-title">Name: @item.FirstName</h5>
+                <p class="card-text">ID: @item.IdCharacter</p>
 
-                    <h5 class="card-title">Clan: @item.Clan.ClanName</h5>
+                <h5 class="card-title">Name: @item.FirstName</h5>
 
-                    <p class="card-text">Age @item.Age</p>
-         
+                <h5 class="card-title">Clan: @item.NameClan</h5>
+
+                <p class="card-text">Age @item.Age</p>
+
                 <a href="" class="btn btn-warning" @onclick="(() => GetOneCharacter(item.IdCharacter))">
-                    <i class="oi oi-pencil">EDIT</i> </a>
+                    <i class="oi oi-pencil">EDIT</i>
+                </a>
                 <a href="#" class="btn btn-danger" @onclick="(() => DeleteCharacter(item.IdCharacter))">
                     <i class="oi oi-trash">DELETE</i>
                 </a>
@@ -41,7 +42,7 @@ else
 
 @code {
 
-    List<Characters>? characters = null;
+    List<CharactersDTO>? characters = null;
 
 
     protected override async Task OnInitializedAsync()
@@ -52,15 +53,15 @@ else
     private async Task DeleteCharacter(int id)
     {
         var alert = await Swal.FireAsync(new SweetAlertOptions
-        {
-            Title = "¿Estás seguro?",
-            Text = "¡No podrás revertir esto!",
-            Icon = SweetAlertIcon.Warning,
-            ShowCancelButton = true,
-            ConfirmButtonText = "¡Sí, bórralo!",
-            CancelButtonText = "¡No, cancela!",
-            ReverseButtons = true
-        });
+            {
+                Title = "¿Estás seguro?",
+                Text = "¡No podrás revertir esto!",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "¡Sí, bórralo!",
+                CancelButtonText = "¡No, cancela!",
+                ReverseButtons = true
+            });
 
         if (alert.IsConfirmed)
         {
@@ -72,16 +73,16 @@ else
             {
                 characters.RemoveAt(index);
             }
-        }  
+        }
     }
 
     private async Task GetOneCharacter(int id)
     {
-       var getById  =  await Chacacters.Character_GET(id);
+        var getById = await Chacacters.Character_GET(id);
 
         if (getById != null)
         {
-            NavigationManager.NavigateTo($"/add_character/{getById.IdCharacter}");
+            NavigationManager.NavigateTo($"/addcharacter/{getById.IdCharacter}");
         }
     }
 }
