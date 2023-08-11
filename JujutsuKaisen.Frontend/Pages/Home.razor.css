@@ -1,0 +1,38 @@
+﻿.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card-img-top 
+{
+    width: 70%;
+    height: 40%;
+    object-fit: fill;
+    margin: auto;
+}
+
+.buttons 
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    margin-left : 5px;
+    margin-right : 5px;
+}
+
+
+
+@media (max-width: 768px) {
+    .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+
+
+
+

@@ -1,0 +1,16 @@
+﻿.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-Icon {
+    display: flex;
+    gap: 50px;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    align-items: center;
+    margin : 100px 0px 0px 0px;
+}
+
+

@@ -48,10 +48,10 @@
                     <td>@item.ClanName</td>
                     <td>
                         <button class="btn btn-warning btn-sm" @onclick="(() => GetOneCharacter(item.IdClan))">
-                            <i class="oi oi-pencil"> UPDATE</i>
+                            <i class="oi oi-pencil"></i>
                         </button>
                         <button class="btn btn-danger text-light btn-sm" @onclick="(() => DeleteCharacter(item.IdClan))">
-                            <i class="oi oi-trash text-light"> DELETE</i>
+                            <i class="oi oi-trash text-light"></i>
                         </button>
                     </td>
                     </tr>
@@ -60,7 +60,9 @@
             else
             {
                <tr>
-                    <td>No hay datos</td>
+                 <td>
+                     <p>No hay datos</p>
+                 </td>
                </tr>
             }
         
@@ -119,19 +121,33 @@
 
     private async Task MyClan()
     {
-        if (IdClan != 0)
+        if (!Validation())
         {
-            await Clans.Clan_PUT(clan, IdClan);   
-            await OnInitializedAsync();
-            ResetField();
-        }
-        else
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error",
+                Text = "Please fill in all the fields",
+                Icon = SweetAlertIcon.Error
+            });
+            return;
+        } else
         {
-            await Clans.Clan_POST(clan);
-            await OnInitializedAsync();
-            ResetField();
-            
+            if (IdClan != 0)
+            {
+                await Clans.Clan_PUT(clan, IdClan);
+                await OnInitializedAsync();
+                ResetField();
+            }
+            else
+            {
+                await Clans.Clan_POST(clan);
+                await OnInitializedAsync();
+                ResetField();
+
+            }
         }
+
+       
     }
 
     private void ResetField()
@@ -140,5 +156,15 @@
         btntitle = "Add";
         IdClan = 0;
         clan.ClanName = string.Empty;
+    }
+
+    private bool Validation()
+    {
+        if (string.IsNullOrEmpty(clan.ClanName))
+        {
+            return false;
+        }
+        return true;
+    
     }
 }

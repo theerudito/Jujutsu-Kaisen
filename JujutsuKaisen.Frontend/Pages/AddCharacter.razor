@@ -100,7 +100,7 @@
             title = "Edit Character";
             btntitle = "Edit";
             imageUrl = ImageLoad.TOPNG(listCharacter.Image);
-        listClan = await Clans.Clan_GETS();
+            listClan = await Clans.Clan_GETS();
 
         } else
         {
@@ -113,33 +113,42 @@
 
     private async Task SaveCharacter()
     {
-        var newCharacter = new CharactersDTO
-            {
-                IdCharacter = IdCharacter,
-                FirstName = listCharacter.FirstName,
-                IdClan = listCharacter.IdClan,
-                Age = listCharacter.Age,
-                Image = base64String
-            };
+        if (Validationes() == false)
+        {
+            await Swal.FireAsync("Error", "Please fill in all the fields", SweetAlertIcon.Error);
+            return;
+        } else
+        {
+            var newCharacter = new CharactersDTO
+                {
+                    IdCharacter = IdCharacter,
+                    FirstName = listCharacter.FirstName,
+                    IdClan = listCharacter.IdClan,
+                    Age = listCharacter.Age,
+                    Image = base64String
+                };
 
-        if (IdCharacter != 0)
-        {
-           
-            await Characters.Character_PUT(newCharacter, IdCharacter);
-            ResetField();
-            NavigationManager.NavigateTo("/");
+            if (IdCharacter != 0)
+            {
+
+                await Characters.Character_PUT(newCharacter, IdCharacter);
+                ResetField();
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                await Characters.Character_POST(newCharacter);
+                ResetField();
+                NavigationManager.NavigateTo("/");
+            }
         }
-        else
-        {
-            await Characters.Character_POST(newCharacter);
-            ResetField();
-            NavigationManager.NavigateTo("/");
-        }
+
+       
     }
 
     private void Cancel()
     {
-       ResetField();
+        ResetField();
     }
 
     private void ResetField()
@@ -174,5 +183,30 @@
             // Maneja la excepción aquí, por ejemplo, mostrando un mensaje de error
             Console.WriteLine($"Error al procesar la imagen: {ex.Message}");
         }
+    }
+
+    private bool Validationes ()
+    {
+        if (listCharacter.FirstName == null)
+        {
+            return false;
+        }
+        else if (listCharacter.IdClan == 0)
+        {
+            return false;
+        }
+        else if (listCharacter.Age == 0)
+        {
+            return false;
+        }
+        else if (base64String == null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    
     }
 }

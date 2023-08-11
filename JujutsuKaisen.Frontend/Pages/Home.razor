@@ -5,7 +5,10 @@
 @inject NavigationManager NavigationManager;
 
 
-<p>Lista De Characters</p>
+<p>Lists Characters</p>
+<div class="container">
+
+
 
 @if (characters != null)
 {
@@ -13,32 +16,42 @@
     @foreach (var item in characters)
     {
 
-        <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 12rem; height : 400px">
             <img class="card-img-top" src="@ImageLoad.TOPNG(item.Image)" alt="image">
             <div class="card-body">
 
                 <p class="card-text">ID: @item.IdCharacter</p>
 
-                <h5 class="card-title">Name: @item.FirstName</h5>
+                <h6 class="card-title">Name: @item.FirstName</h6>
 
-                <h5 class="card-title">Clan: @item.NameClan</h5>
+                <h6 class="card-title">Clan: @item.NameClan</h6>
 
                 <p class="card-text">Age @item.Age</p>
-
-                <a href="" class="btn btn-warning" @onclick="(() => GetOneCharacter(item.IdCharacter))">
-                    <i class="oi oi-pencil">EDIT</i>
-                </a>
-                <a href="#" class="btn btn-danger" @onclick="(() => DeleteCharacter(item.IdCharacter))">
-                    <i class="oi oi-trash">DELETE</i>
-                </a>
+                
             </div>
+
+            <div class="buttons">
+                    <a href="" class="btn btn-warning" @onclick="(() => GetOneCharacter(item.IdCharacter))">
+                        <i class="oi oi-pencil"></i>
+                    </a>
+                    <a href="#" class="btn btn-danger" @onclick="(() => DeleteCharacter(item.IdCharacter))">
+                        <i class="oi oi-trash"></i>
+                    </a>
+            </div>
+
         </div>
     }
 }
 else
 {
-    <p>No hay datos</p>
-}
+        
+            <div>
+                <p>No hay datos</p>
+            </div>
+        
+    }
+
+</div>
 
 @code {
 
