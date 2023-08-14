@@ -13,12 +13,12 @@
 <h3>@title</h3>
 
 <EditForm Model="listCharacter">
-    <div class="mb-3" >
-        <img class="mb-4"
+    <div class="mb-5" >
+        <img class="mb-1 "
              src="@imageUrl"
              alt="Character Image"
              width="200"
-             height="150">
+             height="150" >
 
         <InputFile 
             class="form-control mb-4" 
@@ -68,7 +68,7 @@
 
     <button type="submit"
             class="btn btn-outline-primary"
-            @onclick="(() => Cancel())">
+            @onclick="(() => ResetField())">
         Cancel
     </button>
    
@@ -83,6 +83,7 @@
     string imageUrl = null!;
     string title = string.Empty;
     string btntitle = string.Empty;
+    bool _isEdit;
 
     private string base64String = null!;
 
@@ -101,7 +102,6 @@
             btntitle = "Edit";
             imageUrl = ImageLoad.TOPNG(listCharacter.Image);
             listClan = await Clans.Clan_GETS();
-
         } else
         {
             title = "Add Character";
@@ -115,41 +115,53 @@
     {
         if (Validationes() == false)
         {
-            await Swal.FireAsync("Error", "Please fill in all the fields", SweetAlertIcon.Error);
+            await Swal.FireAsync("Error", "All fields are required", SweetAlertIcon.Error);
             return;
         } else
         {
-            var newCharacter = new CharactersDTO
-                {
-                    IdCharacter = IdCharacter,
-                    FirstName = listCharacter.FirstName,
-                    IdClan = listCharacter.IdClan,
-                    Age = listCharacter.Age,
-                    Image = base64String
-                };
-
             if (IdCharacter != 0)
             {
+                var newCharacter = new CharactersDTO
+                        {
+                            IdCharacter = IdCharacter,
+                            FirstName = listCharacter.FirstName,
+                            IdClan = listCharacter.IdClan,
+                            Age = listCharacter.Age,
+                            Image = _isEdit == true ? base64String : listCharacter.Image
+                        };
 
                 await Characters.Character_PUT(newCharacter, IdCharacter);
                 ResetField();
                 NavigationManager.NavigateTo("/");
             }
             else
-            {
-                await Characters.Character_POST(newCharacter);
-                ResetField();
-                NavigationManager.NavigateTo("/");
+            { 
+                if (base64String == null)
+                {
+                    await Swal.FireAsync("Error", "Imagen is Requered", SweetAlertIcon.Error);
+                    return;
+                } else
+                {
+                    var newCharacter = new CharactersDTO
+                        {
+                            IdCharacter = IdCharacter,
+                            FirstName = listCharacter.FirstName,
+                            IdClan = listCharacter.IdClan,
+                            Age = listCharacter.Age,
+                            Image = base64String
+                        };
+
+                    await Characters.Character_POST(newCharacter);
+                    ResetField();
+                    NavigationManager.NavigateTo("/");
+                }
+        
             }
         }
 
-       
+
     }
 
-    private void Cancel()
-    {
-        ResetField();
-    }
 
     private void ResetField()
     {
@@ -159,6 +171,7 @@
         imageUrl = "https://i.postimg.cc/DwwLdcy1/Jujutsu-Kaisen-logo.png";
         IdCharacter = 0;
         base64String = null!;
+        _isEdit = false;
     }
 
 
@@ -166,6 +179,7 @@
     {
         try
         {
+            _isEdit = true;
             var file = e.File;
 
             using (var memoryStream = new MemoryStream())
@@ -196,10 +210,6 @@
             return false;
         }
         else if (listCharacter.Age == 0)
-        {
-            return false;
-        }
-        else if (base64String == null)
         {
             return false;
         }
